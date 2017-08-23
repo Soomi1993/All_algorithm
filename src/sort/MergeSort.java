@@ -1,5 +1,8 @@
 package sort;
 
+/**
+ * merge sort algorithm
+ */
 public class MergeSort {
     public void sort(int[] arr){
         mergeSort(arr,0,arr.length-1);

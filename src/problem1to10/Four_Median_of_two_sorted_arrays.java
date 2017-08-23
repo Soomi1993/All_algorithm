@@ -24,45 +24,54 @@ package problem1to10;
 public class Four_Median_of_two_sorted_arrays {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
 
-        if(nums1.length<=0){
-            return arrMid(nums2);
-        }
-        if(nums2.length<=0){
-            return arrMid(nums1);
-        }
-        // 1.rename
-        int[] small;
-        int[] large;
-        if(nums1[nums1.length-1]<nums2[nums2.length-1]){
-            small = nums1;
-            large = nums2;
+        int mid = (nums1.length+nums2.length)/2;
+        if((nums1.length+nums2.length)%2 == 0){
+            // even number
+            double val = findKth(nums1,0,nums2,0,mid)+findKth(nums1,0,nums2,0,mid+1);
+            return val/2.0;
         }else {
-            small=nums2;
-            large=nums1;
+            return findKth(nums1,0,nums2,0,mid+1);
         }
-
-
-
-
-        return 0;
     }
-    private double findKth(int[] arr1,int[] arr2,int kth){
-        return 0;
-    }
-
-
-    private double arrMid(int[] arr){
-        if(arr.length%2==0){
-            //ou shu
-            return (arr[arr.length/2]+arr[(arr.length/2)-1])/2;
+    private double findKth(int[] A,int startA,int[] B,int startB,int kth){
+        if(startA>=A.length){
+            return B[startB + kth -1];
+        }
+        if(startB>=B.length){
+            return A[startA + kth -1];
+        }
+        if(kth == 1){
+            return Math.min(A[startA],B[startB]);
+        }
+        int valA,valB;
+        if(startA + kth/2 -1<A.length){
+            valA = A[startA + kth/2 -1];
         }else {
-            return arr[arr.length/2];
+            valA = Integer.MAX_VALUE;
         }
+
+        if(startB + kth/2 -1 <B.length){
+            valB = B[startB + kth/2 -1];
+        }else{
+            valB = Integer.MAX_VALUE;
+        }
+
+        if(valA<valB){
+            return findKth(A,startA+kth/2,B,startB,kth - kth/2);
+        }else {
+            return findKth(A,startA,B,startB+kth/2,kth-kth/2);
+        }
+
     }
+
+
+
 
     public static void main(String[] args) {
-
-
-
+        int[] arr1 = {1,2,3,4};
+        int [] arr2 = {5,6,7,8};
+        Four_Median_of_two_sorted_arrays obj = new Four_Median_of_two_sorted_arrays();
+        double result =obj.findMedianSortedArrays(arr1,arr2);
+        System.out.println(result);
     }
 }
